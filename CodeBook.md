@@ -1,45 +1,62 @@
 ---
-title: "CodeBook.md"
+title: "CodeBook"
 author: "Jeremy Huang"
 date: "Saturday, February 14, 2015"
 output: html_document
 ---
-This is how my run_analysis.R run to clean up the data:
 
-1. Set the working directory to the directory where the source data were 
-   downloaded and unzipped.
-2. Read in the training set and test set source data using features.txt
-   as variable names of the data frames.
-3. Using dplyr package, add actcode (activity code which represents one of 
-   the six activities) and subject_id (representing the subject who perform
-   the activity) to the training and test data frames.
-4. Merge the training and test data frame horizontally as required. The 
-   merged data frame has 10299 observations and 563 variables.
-5. Step 2: extract the columns with "mean()" and "std()" based on the 
-   data frame read from features.txt.
-6. Step 3: read in the description of activity code (activity_label.txt) 
-   and merge to data frame by the actcode. So each observation has a column
-   describing the activity. But the column name remains V2 which is 
-   meaningless.
-7. Step 4: rename the column name of "V2"" to "activity"" which is meaningful
-   and delete the redundant column "actcode".
-8. Step 5: group by "subject_id" and "activity" and through summarise_each 
-   function to get a new data frame which has avarage values for each 
-   measurement for each "subject_id" and "activity". The clean data set has
-   180 observations and 563 variables.
+Variables for the output tidy data set ("cleands.txt" in my case):
 
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+subject_id: the id of 30 volunteers who carried out the experiments
+activity: the activity performed by the subject_id in the experiments
+the next 561 variables are the mean of 561 measurements for each subject and each activity.
 
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+The original 561 measurements are signals which were used to estimate variables of the feature vector for each pattern:  
+'-XYZ' is used to denote 3-axial signals in the X, Y and Z directions.
 
-```{r}
-summary(cars)
-```
+tBodyAcc-XYZ
+tGravityAcc-XYZ
+tBodyAccJerk-XYZ
+tBodyGyro-XYZ
+tBodyGyroJerk-XYZ
+tBodyAccMag
+tGravityAccMag
+tBodyAccJerkMag
+tBodyGyroMag
+tBodyGyroJerkMag
+fBodyAcc-XYZ
+fBodyAccJerk-XYZ
+fBodyGyro-XYZ
+fBodyAccMag
+fBodyAccJerkMag
+fBodyGyroMag
+fBodyGyroJerkMag
 
-You can also embed plots, for example:
+The set of variables that were estimated from these signals are: 
 
-```{r, echo=FALSE}
-plot(cars)
-```
+mean(): Mean value
+std(): Standard deviation
+mad(): Median absolute deviation 
+max(): Largest value in array
+min(): Smallest value in array
+sma(): Signal magnitude area
+energy(): Energy measure. Sum of the squares divided by the number of values. 
+iqr(): Interquartile range 
+entropy(): Signal entropy
+arCoeff(): Autorregresion coefficients with Burg order equal to 4
+correlation(): correlation coefficient between two signals
+maxInds(): index of the frequency component with largest magnitude
+meanFreq(): Weighted average of the frequency components to obtain a mean frequency
+skewness(): skewness of the frequency domain signal 
+kurtosis(): kurtosis of the frequency domain signal 
+bandsEnergy(): Energy of a frequency interval within the 64 bins of the FFT of each window.
+angle(): Angle between to vectors.
 
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+Additional vectors obtained by averaging the signals in a signal window sample. These are used on the angle() variable:
+
+gravityMean
+tBodyAccMean
+tBodyAccJerkMean
+tBodyGyroMean
+tBodyGyroJerkMean
+
